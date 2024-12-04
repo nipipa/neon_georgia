@@ -140,7 +140,7 @@
 
             let length_cost = 0;
             let kef = 0;
-
+            
             const colorPrices = {
                 "зеленый": 158.48,
                 "лимонный": 158.48,
@@ -163,33 +163,37 @@
                 "саморез": 0.5
             };
 
-            if (neonLength <= 2) { length_cost = 150; }
+            if (neonLength > 0 && neonLength <= 2) { length_cost = 150; }
             else if (neonLength > 2 && neonLength <= 10) { length_cost = 550; }
             else if (neonLength > 10 && neonLength <= 15) { length_cost = 750; }
-            else { length_cost = 1300; }
+            else if (neonLength > 15 && neonLength <= 25) {length_cost = 1300; }
 
-            if (elements <= 15) { kef = 5; }
+            if (elements > 0 && elements <= 15) { kef = 5; }
             else if (elements > 15 && elements <= 25) { kef = 6; }
             else if (elements > 25 && elements <= 40) { kef = 7; }
             else if (elements > 40 && elements <= 75) { kef = 8; }
-            else { kef = 9; }
+            else if (elements > 75) { kef = 9; }
 
             const neonPricePerMeter = colorPrices[color] || 0;
-            const sqr = width * height;
-            const sqr_polistirol = sqr * rashodniki["полистирол"];
-            const sqr_pupirka = 4 *sqr * rashodniki["пупырка"];
-            const cost_neon = neonLength * neonPricePerMeter;
+            const sqr = width * height; // площадь вывески
+            const sqr_polistirol = sqr * rashodniki["полистирол"]; // цена полистирола
+            const sqr_pupirka = 4 * sqr * rashodniki["пупырка"]; // цена пупырки5
+            const cost_neon = neonLength * neonPricePerMeter; // цена неона
 
-            const summary_sibik = Math.round(sqr_polistirol + cost_neon + sqr_pupirka + length_cost + 50);
+            // const summary_sibik = Math.round(sqr_polistirol + cost_neon + sqr_pupirka + length_cost + 50);
+            const summary_sibik = Math.round((sqr_polistirol + cost_neon + sqr_pupirka + length_cost + 6) / 30);
+
             const summary_total = Math.round(summary_sibik * kef);
 
-            const summary_sibik_GEL = Math.round(summary_sibik / 30);
-            const summary_total_GEL = Math.round(summary_total / 30);
+            const summary_sibik_GEL = summary_sibik;
+            const summary_total_GEL = summary_total + 50;
 
-            document.getElementById("total-cost-GEL").innerHTML = `Итого себестоимость: <span>${summary_sibik_GEL} GEL</span>`;
-            document.getElementById("sign-price-GEL").innerHTML = `Цена вывески: <span>${summary_total_GEL} GEL</span>`;
+            // document.getElementById("total-cost-GEL").innerHTML = `Итого себестоимость ГРУЗИЯ: <span>${sqr}, ${sqr_polistirol},${sqr_pupirka},${cost_neon}, ${length_cost}, ${kef} GEL</span>`;
+            document.getElementById("total-cost-GEL").innerHTML = `Итого себестоимость ГРУЗИЯ: <span>${summary_sibik_GEL} GEL</span>`;
+            document.getElementById("sign-price-GEL").innerHTML = `Цена вывески ГРУЗИЯ: <span>${summary_total_GEL} GEL</span>`;
         }
     </script>
+
 </body>
 
 </html>
